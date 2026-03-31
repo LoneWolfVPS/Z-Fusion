@@ -476,6 +476,7 @@ async def klein_seedvr2_single(
     blocks_to_swap: int,
     attention_mode: str,
     color_correction: str,
+    autosave: bool,
     lora_params: dict,
 ) -> tuple:
     """Execute single Klein+SeedVR2 pass. Returns (result_path, status, duration)."""
@@ -523,6 +524,9 @@ async def klein_seedvr2_single(
         if image_path.startswith("http"):
             image_path = await download_image_from_url(image_path)
 
+        if autosave:
+            save_experimental_output(image_path, input_image, outputs_dir)
+
         image_path = copy_to_temp_with_name(image_path, input_image)
         duration = time.time() - start_time
         return image_path, "success", duration
@@ -549,6 +553,7 @@ async def run_klein_seedvr2(
     blocks_to_swap: int,
     attention_mode: str,
     color_correction: str,
+    autosave: bool,    
     lora1_enabled: bool = False, lora1_name: str = None, lora1_strength: float = 1.0,
     lora2_enabled: bool = False, lora2_name: str = None, lora2_strength: float = 1.0,
     lora3_enabled: bool = False, lora3_name: str = None, lora3_strength: float = 1.0,
@@ -579,15 +584,15 @@ async def run_klein_seedvr2(
     result_path, status_msg, duration = await klein_seedvr2_single(
         services, input_image, prompt, actual_seed, megapixels, steps, denoise,
         scheduler, s_noise, use_gguf, unet_name, clip_name, vae_name,
-        dit_model, blocks_to_swap, attention_mode, color_correction, lora_params
+        dit_model, blocks_to_swap, attention_mode, color_correction,
+        autosave, lora_params
     )
 
     if result_path is None:
         yield None, format_status_error(status_msg), actual_seed, None
     else:
-        status = format_status_success(duration)
+        status = format_status_success(duration, saved=autosave)
         yield (input_image, result_path), status, actual_seed, result_path
-
 
 async def run_klein_seedvr2_batch(
     services: "SharedServices",
@@ -666,8 +671,9 @@ async def run_klein_seedvr2_batch(
 
     avg_time = total_duration / len(results) if results else 0
     status = f"✓ {len(results)}/{total} images | {total_duration:.1f}s total ({avg_time:.1f}s avg) | Saved"
+    if autosave:
+        status += " | Saved"
     yield results, status, base_seed
-
 
 # =============================================================================
 # Tab UI
@@ -1094,6 +1100,7 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
             klein_megapixels, klein_steps, klein_denoise, klein_scheduler, klein_s_noise,
             klein_unet_name, klein_clip_name, klein_vae_name,
             klein_dit_model, klein_blocks_to_swap, klein_attention_mode, klein_color_correction,
+            autosave,
         ]
         shared_seed_inputs = [seed, randomize_seed, klein_seed, klein_randomize_seed]
 
