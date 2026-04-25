@@ -466,8 +466,9 @@ async def run_edit_batch(
                 image_path = await download_image_from_url(image_path)
 
             # Save to batch output folder preserving original filename
+            # Include index to guarantee uniqueness (handles duplicate stems across extensions)
             stem = Path(img_path).stem
-            output_path = batch_output_dir / f"{stem}_edited.png"
+            output_path = batch_output_dir / f"{stem}_{i+1:04d}_edited.png"
             shutil.copy2(image_path, output_path)
 
             success_count += 1

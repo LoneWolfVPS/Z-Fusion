@@ -32,7 +32,7 @@ module.exports = {
           }, {
             icon: "fa-solid fa-diagram-project",
             text: "Open ComfyUI",
-            href: "http://127.0.0.1:8188",
+            href: "http://localhost:8188",
           }, {
             icon: "fa-solid fa-terminal",
             text: "Terminal",

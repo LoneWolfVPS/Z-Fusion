@@ -568,6 +568,9 @@ async def upscale_image_batch(
             
             # Save to batch output folder with meaningful name
             original_name = extract_meaningful_filename(img_path)
+            # If name fell back to generic "image", use index to avoid collisions
+            if original_name == "image":
+                original_name = f"image_{i+1:04d}"
             res_label = f"{resolution // 1000}K" if resolution >= 1000 else f"{resolution}p"
             output_filename = f"{original_name}_{res_label}up.png"
             output_path = batch_output_dir / output_filename
@@ -840,7 +843,7 @@ async def upscale_video_batch(
         try:
             input_video_name = extract_meaningful_filename(vid_path)
             if input_video_name == "image":
-                input_video_name = "video"
+                input_video_name = f"video_{i+1:04d}"
 
             comfyui_prefix = f"seedvr2_batch_{timestamp}_{i:04d}"
             png_prefix = f"{comfyui_prefix}_png/{comfyui_prefix}"
