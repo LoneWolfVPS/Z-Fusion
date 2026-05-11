@@ -193,26 +193,18 @@ def get_seedvr2_max_blocks(dit_model: str) -> int:
     return 32 if "3b" in dit_model.lower() else 36
 
 
-def extract_meaningful_filename(filepath: str) -> str:
-    """Extract a meaningful filename, filtering out temp file patterns."""
+def extract_meaningful_filename(filepath: str, max_length: int = 100) -> str:
+    """
+    Extract filename stem and truncate if needed.
+    """
     if not filepath:
         return "image"
     
     stem = Path(filepath).stem
     
-    # Detect Gradio/system temp file patterns (tmp*, random hex strings, etc.)
-    is_temp = (
-        stem.lower().startswith('tmp') or
-        stem.lower().startswith('temp') or
-        (len(stem) < 12 and not any(c.isalpha() for c in stem[:3]))
-    )
-    
-    if is_temp:
-        return "image"
-    
-    # Truncate if too long
-    if len(stem) > 50:
-        stem = stem[:50]
+    # Truncate if too long (conservative for Windows paths)
+    if len(stem) > max_length:
+        stem = stem[:max_length]
     
     return stem
 
@@ -566,13 +558,20 @@ async def upscale_image_batch(
             if image_path.startswith("http"):
                 image_path = await download_image_from_url(image_path)
             
-            # Save to batch output folder with meaningful name
+            # Save to batch output folder with meaningful name + timestamp
             original_name = extract_meaningful_filename(img_path)
             # If name fell back to generic "image", use index to avoid collisions
             if original_name == "image":
                 original_name = f"image_{i+1:04d}"
+
+            max_name_length = 100  # Conservative limit for the base name
+            if len(original_name) > max_name_length:
+                original_name = original_name[:max_name_length]
+            
+            # Add timestamp to prevent overwrites
+            file_timestamp = datetime.now().strftime("%H%M%S")
             res_label = f"{resolution // 1000}K" if resolution >= 1000 else f"{resolution}p"
-            output_filename = f"{original_name}_{res_label}up.png"
+            output_filename = f"{original_name}_{res_label}up_{file_timestamp}.png"
             output_path = batch_output_dir / output_filename
             shutil.copy2(image_path, output_path)
             
@@ -890,7 +889,15 @@ async def upscale_video_batch(
                 continue
 
             video_url = result.videos[0]
-            output_filename = f"{input_video_name}_{resolution}p{file_ext}"
+            
+            # Truncate filename to safe length (leave room for suffix + timestamp + extension)
+            max_name_length = 100  # Conservative limit for the base name
+            if len(input_video_name) > max_name_length:
+                input_video_name = input_video_name[:max_name_length]
+            
+            # Add timestamp to prevent overwrites
+            file_timestamp = datetime.now().strftime("%H%M%S")
+            output_filename = f"{input_video_name}_{resolution}p_{file_timestamp}{file_ext}"
             output_path = batch_output_dir / output_filename
 
             if video_url.startswith("http"):
