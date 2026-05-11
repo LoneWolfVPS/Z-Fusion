@@ -438,7 +438,7 @@ async def experimental_upscale_batch(
             steps, start_at_step, end_at_step, shift, cfg, sampler_name,
             use_gguf, unet_name, clip_name, vae_name,
             base_shift, max_shift, use_karras_sigmas, stochastic_sampling,
-            autosave, lora_params
+            True, lora_params  # Batch always saves (ignore autosave checkbox)
         )
 
         if result_path:
@@ -448,9 +448,7 @@ async def experimental_upscale_batch(
             logger.warning(f"Batch item {i+1} failed: {status_msg}")
 
     avg_time = total_duration / len(results) if results else 0
-    status = f"✓ {len(results)}/{total} images | {total_duration:.1f}s total ({avg_time:.1f}s avg)"
-    if autosave:
-        status += " | Saved"
+    status = f"✓ {len(results)}/{total} images | {total_duration:.1f}s total ({avg_time:.1f}s avg) | Saved"
     yield results, status, base_seed
 
 
@@ -614,6 +612,7 @@ async def run_klein_seedvr2_batch(
     blocks_to_swap: int,
     attention_mode: str,
     color_correction: str,
+    autosave: bool,
     lora1_enabled: bool = False, lora1_name: str = None, lora1_strength: float = 1.0,
     lora2_enabled: bool = False, lora2_name: str = None, lora2_strength: float = 1.0,
     lora3_enabled: bool = False, lora3_name: str = None, lora3_strength: float = 1.0,
@@ -658,21 +657,20 @@ async def run_klein_seedvr2_batch(
         result_path, status_msg, duration = await klein_seedvr2_single(
             services, img_path, prompt, current_seed, megapixels, steps, denoise,
             scheduler, s_noise, use_gguf, unet_name, clip_name, vae_name,
-            dit_model, blocks_to_swap, attention_mode, color_correction, lora_params
+            dit_model, blocks_to_swap, attention_mode, color_correction,
+            False, lora_params  # Batch always saves, so pass False to avoid double-save
         )
 
         if result_path:
             results.append(result_path)
             total_duration += duration
-            # Auto-save batch outputs
+            # Batch always saves outputs (ignore autosave checkbox)
             save_experimental_output(result_path, img_path, services.get_outputs_dir())
         else:
             logger.warning(f"Batch item {i+1} failed: {status_msg}")
 
     avg_time = total_duration / len(results) if results else 0
     status = f"✓ {len(results)}/{total} images | {total_duration:.1f}s total ({avg_time:.1f}s avg) | Saved"
-    if autosave:
-        status += " | Saved"
     yield results, status, base_seed
 
 # =============================================================================
@@ -902,6 +900,7 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
                     klein_unet_name = klein_model_components.unet_name
                     klein_clip_name = klein_model_components.clip_name
                     klein_vae_name = klein_model_components.vae_name
+                    klein_use_gguf = klein_model_components.use_gguf
 
                 # ===== LoRA (always visible) =====
                 lora_components = create_lora_ui(loras_dir, accordion_open=False)
@@ -1035,13 +1034,13 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
             is_gguf, unet, clip, vae, base_shift_val, max_shift_val, karras, stochastic, auto,
             # Klein params
             k_mp, k_steps, k_denoise, k_scheduler, k_s_noise,
-            k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color,
+            k_use_gguf, k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color,
             *lora_args
         ):
             if workflow == "Klein-Tiled-SeedVR2":
                 async for result in run_klein_seedvr2(
                     services, img, prompt_text, klein_seed_val, klein_randomize,
-                    k_mp, k_steps, k_denoise, k_scheduler, k_s_noise, is_gguf,
+                    k_mp, k_steps, k_denoise, k_scheduler, k_s_noise, k_use_gguf,
                     k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color, auto, 
                     *lora_args
                 ):
@@ -1067,13 +1066,13 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
             is_gguf, unet, clip, vae, base_shift_val, max_shift_val, karras, stochastic, auto,
             # Klein params
             k_mp, k_steps, k_denoise, k_scheduler, k_s_noise,
-            k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color,
+            k_use_gguf, k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color,
             *lora_args
         ):
             if workflow == "Klein-Tiled-SeedVR2":
                 async for result in run_klein_seedvr2_batch(
                     services, files, folder, prompt_text, klein_seed_val, klein_randomize,
-                    k_mp, k_steps, k_denoise, k_scheduler, k_s_noise, is_gguf,
+                    k_mp, k_steps, k_denoise, k_scheduler, k_s_noise, k_use_gguf,
                     k_unet, k_clip, k_vae, k_dit, k_blocks, k_attn, k_color, auto, 
                     *lora_args
                 ):
@@ -1095,10 +1094,10 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
             shift, cfg, sampler_name, use_gguf, unet_name, clip_name, vae_name,
             base_shift, max_shift, use_karras_sigmas, stochastic_sampling, autosave,
         ]
-        # klein_unet/clip/vae come from model_ui dropdowns; use_gguf handled by model_ui preset
+        # klein_unet/clip/vae come from model_ui dropdowns; klein_use_gguf from model_ui preset
         klein_inputs = [
             klein_megapixels, klein_steps, klein_denoise, klein_scheduler, klein_s_noise,
-            klein_unet_name, klein_clip_name, klein_vae_name,
+            klein_use_gguf, klein_unet_name, klein_clip_name, klein_vae_name,
             klein_dit_model, klein_blocks_to_swap, klein_attention_mode, klein_color_correction,
         ]
         shared_seed_inputs = [seed, randomize_seed, klein_seed, klein_randomize_seed]
