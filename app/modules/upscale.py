@@ -1161,6 +1161,12 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
                 with gr.Tabs() as upscale_input_tabs:
                     with gr.TabItem("🖼️ Image", id="upscale_image_tab"):
                         upscale_input_image = gr.Image(label="Input Image", type="filepath", elem_classes="image-window")
+                            upscale_multiplier = gr.Dropdown(
+                            choices=["1.5x", "2.0x", "2.5x", "3.0x", "4.0x"],
+                            value="2.0x",
+                            label="⚡ Upscale Multiplier",
+                            info="Auto-calculates resolution based on input image"
+                        )
                         input_image_analysis = gr.HTML(visible=False, elem_classes="analysis-panel")
                         with gr.Row():
                             upscale_max_input_resolution = gr.Slider(
@@ -1567,7 +1573,42 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
                     gr.Button("🎬 SeedVR2 Tutorial Video", size="sm", link="https://www.youtube.com/watch?v=MBtWYXq_r60")
         
         # ===== EVENT HANDLERS =====
+        def calculate_upscale_resolution(image_path, multiplier_str):
+        """Automatically calculates short/long side based on the uploaded image and multiplier."""
+        if not image_path:
+            return gr.update(), gr.update()
         
+        from PIL import Image
+        try:
+            with Image.open(image_path) as img:
+                w, h = img.size
+        except Exception:
+            return gr.update(), gr.update()
+        
+        mult = float(multiplier_str.replace('x', ''))
+        new_w = int(w * mult)
+        new_h = int(h * mult)
+        
+        # Ensure dimensions are divisible by 8 (Required by SeedVR2/ComfyUI)
+        new_w = (new_w // 8) * 8
+        new_h = (new_h // 8) * 8
+        
+        short_side = min(new_w, new_h)
+        long_side = max(new_w, new_h)
+        
+        return gr.update(value=short_side), gr.update(value=long_side)
+
+    # Wire the dropdown and image upload to auto-update the resolution sliders
+    upscale_input_image.change(
+        fn=calculate_upscale_resolution,
+        inputs=[upscale_input_image, upscale_multiplier],
+        outputs=[upscale_resolution, upscale_max_resolution]
+    )
+    upscale_multiplier.change(
+        fn=calculate_upscale_resolution,
+        inputs=[upscale_input_image, upscale_multiplier],
+        outputs=[upscale_resolution, upscale_max_resolution]
+    )
         # Helper to get current color scheme from settings
         def get_analysis_color():
             return services.settings.get("analysis_color_scheme", "purple")
