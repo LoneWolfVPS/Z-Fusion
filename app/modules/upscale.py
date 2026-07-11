@@ -2055,6 +2055,20 @@ def create_tab(services: "SharedServices") -> gr.TabItem:
                 return "❌ No image to save"
             current_outputs_dir = services.get_outputs_dir()
             saved_path = save_upscale_to_outputs(image_path, original_path, resolution or 4096, current_outputs_dir)
+            # --- GOOGLE DRIVE AUTO-SAVE LOGIC ---
+            try:
+                import shutil
+                import os
+                
+                drive_dir = "/content/drive/MyDrive/Z-Fusion-Upscales"
+                if os.path.exists(drive_dir):
+                    filename = Path(saved_path).name
+                    drive_save_path = os.path.join(drive_dir, filename)
+                    shutil.copy2(saved_path, drive_save_path)
+                    return f"✓ Saved locally | 💾 Also backed up to Google Drive!"
+            except Exception as e:
+                pass
+            # ------------------------------------
             return f"✓ Saved: {Path(saved_path).name}"
         
         upscale_save_btn.click(
