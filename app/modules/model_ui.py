@@ -82,33 +82,66 @@ class BaseModelType:
 
 # Define available base types
 BASE_MODEL_TYPES = {
-    # ========================================
-    # KREA2 BASE MODELS
-    # ========================================
-    "krea2_turbo_fp8": BaseModelType(
-        id="krea2_turbo_fp8",
-        label="Krea2 Turbo (FP8)",
+    "zimage": BaseModelType(
+        id="zimage",
+        label="Z-Image",
+        clip_type="lumina2",
+        default_diffusion="z_image_turbo_bf16.safetensors",
+        default_te="qwen_3_4b.safetensors",
+        default_vae="ae.safetensors",
+        default_diffusion_gguf="z-image-turbo-q4_k_m.gguf",
+        default_te_gguf="Qwen3-4B-Q4_K_M.gguf",
+        download_keys_standard=["zimage_diffusion_bf16", "zimage_te_bf16", "zimage_vae"],
+        download_keys_gguf=["zimage_diffusion_gguf", "zimage_te_gguf", "zimage_vae"],
+        supports_gguf=True,
+        description="Z-Image architecture (Lumina2-based)"
+    ),
+    "flux2_klein_4b": BaseModelType(
+        id="flux2_klein_4b",
+        label="Flux2 Klein 4B",
+        clip_type="flux2",
+        default_diffusion="flux-2-klein-4b-fp8.safetensors",
+        default_te="qwen_3_4b.safetensors",
+        default_vae="flux2-vae.safetensors",
+        default_diffusion_gguf="flux-2-klein-4b-Q4_K_M.gguf",
+        default_te_gguf="Qwen3-4B-Q4_K_M.gguf",
+        download_keys_standard=["flux2_klein_4b_diffusion", "zimage_te_bf16", "flux2_vae"],
+        download_keys_gguf=["flux2_klein_4b_diffusion_gguf", "zimage_te_gguf", "flux2_vae"],
+        supports_gguf=True,
+        supports_edit=True,
+        description="Flux2 Klein 4B (uses 4B Qwen TE)"
+    ),
+    "flux2_klein_9b": BaseModelType(
+        id="flux2_klein_9b",
+        label="Flux2 Klein 9B",
+        clip_type="flux2",
+        default_diffusion="flux-2-klein-9b.safetensors",
+        default_diffusion2="flux-2-klein-9b-fp8.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        default_diffusion_gguf="flux-2-klein-9b-Q4_K_M.gguf",
+        default_te_gguf="Qwen3-8B-Q4_K_M.gguf",
+        download_keys_standard=["flux2_klein_9b_diffusion", "flux2_te_8b_bf16", "flux2_vae"],
+        download_keys_gguf=["flux2_klein_9b_diffusion_gguf", "flux2_te_8b_gguf", "flux2_vae"],
+        download_keys_gguf_bf16=["flux2_klein_9b_diffusion_gguf_bf16", "flux2_te_8b_gguf_bf16", "flux2_vae"],
+        supports_gguf=True,
+        supports_edit=True,
+        description="Flux2 Klein 9B (uses 8B Qwen TE)"
+    ),
+    "krea2": BaseModelType(
+        id="krea2",
+        label="Krea2",
         clip_type="krea2",
         default_diffusion="krea2_turbo_fp8_scaled.safetensors",
         default_te="qwen3vl_4b_fp8_scaled.safetensors",
-        default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["krea2_turbo_fp8", "krea2_te", "krea2_realvae"],
+        default_vae="qwen_image_vae.safetensors",
+        download_keys_standard=["krea2_diffusion", "krea2_te", "krea2_vae"],
         supports_gguf=False,
-        supports_edit=True,
-        description="Krea2 Turbo FP8 - Fast generation"
+        description="Krea2 architecture (Qwen3-VL-4B based)"
     ),
-    "krea2_turbo_nvfp4": BaseModelType(
-        id="krea2_turbo_nvfp4",
-        label="Krea2 Turbo (NVFP4)",
-        clip_type="krea2",
-        default_diffusion="krea2_turbo_nvfp4.safetensors",
-        default_te="qwen3vl_4b_fp8_scaled.safetensors",
-        default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["krea2_turbo_nvfp4", "krea2_te", "krea2_realvae"],
-        supports_gguf=False,
-        supports_edit=True,
-        description="Krea2 Turbo NVFP4 - Lower VRAM"
-    ),
+    # ========================================
+    # KREA2 BASE MODELS
+    # ========================================
     "moody_krea_mix_v41g_nvfp4": BaseModelType(
         id="moody_krea_mix_v41g_nvfp4",
         label="Moody-Krea-Mix v4.1G (NVFP4)",
@@ -225,9 +258,11 @@ BASE_MODEL_TYPES = {
 
 # Update the order to include all new models
 BASE_TYPE_ORDER = [
+    "zimage",
+    "flux2_klein_4b",
+    "flux2_klein_9b",
+    "krea2",
     # Krea2 variants
-    "krea2_turbo_fp8",
-    "krea2_turbo_nvfp4",
     "moody_krea_mix_v41g_nvfp4",
     "moody_krea_mix_v3g_nvfp4",
     "krea2_muse_by_stable_gguf",
