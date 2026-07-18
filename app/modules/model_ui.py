@@ -128,6 +128,33 @@ BASE_MODEL_TYPES = {
         supports_edit=True,
         description="Flux2 Klein 9B (uses 8B Qwen TE)"
     ),
+    "flux2_klein_custom": BaseModelType(
+        id="flux2_klein_custom",
+        label="Flux2 Klein (Custom Mixes)",
+        clip_type="flux2",
+        default_diffusion="moodyDesireMix_v30.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        default_diffusion_gguf="fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        default_te_gguf="Qwen3-8B-Q4_K_M.gguf",
+        download_keys_standard=[
+            "flux2test_artaix_v10", 
+            "flux2test_darkbeast_int8", 
+            "flux2test_gonzalomo_v10", 
+            "flux2test_moodydesire_v30", 
+            "flux2test_realdream_v1",
+            "flux2_te_8b_bf16", 
+            "flux2_vae"
+        ],
+        download_keys_gguf=[
+            "flux2test_fluxtrait_q80", 
+            "flux2_te_8b_gguf", 
+            "flux2_vae"
+        ],
+        supports_gguf=True,
+        supports_edit=True,
+        description="Custom FLUX2 Klein mixes and INT8/GGUF variants"
+    ),    
     "krea2": BaseModelType(
         id="krea2",
         label="Krea2",
@@ -142,16 +169,18 @@ BASE_MODEL_TYPES = {
             "krea2_realvae",
             "moody_krea_mix_v41g_nvfp4",  # Add this
             "moody_krea_mix_v3g_nvfp4",   # Add this
+            "darkBeastKrea2_darkBeastKREA2",
         ],
         download_keys_gguf=[
             "krea2_muse_by_stable_gguf",  # Add this for GGUF mode
+            "kreamaniaV4GGUF_v10",
         ],
         supports_gguf=True,
         description="Krea2 architecture (Qwen3-VL-4B based)"
     ),
 }
 
-BASE_TYPE_ORDER = ["zimage", "flux2_klein_4b", "flux2_klein_9b", "krea2"]
+BASE_TYPE_ORDER = ["zimage", "flux2_klein_4b", "flux2_klein_9b", "krea2", "flux2_klein_custom"]
 
 
 # =============================================================================
@@ -433,6 +462,57 @@ MODEL_DOWNLOADS = {
         "label": "Qwen3 8B TE (BF16 GGUF)",
         "size_gb": 16,
     },
+    # ========================================
+    # FLUX2 KLEIN CUSTOM MODELS (LoneWolfVPS/flux2test)
+    # ========================================
+    "flux2test_artaix_v10": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "artaix_v10Final.safetensors",
+        "local_name": "artaix_v10Final.safetensors",
+        "folder_key": "diffusion",
+        "label": "Artaix v10 Final",
+        "size_gb": 9.0,
+    },
+    "flux2test_darkbeast_int8": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "darkBeastINT8Convrot2_dbkleinv2BFS.safetensors",
+        "local_name": "darkBeastINT8Convrot2_dbkleinv2BFS.safetensors",
+        "folder_key": "diffusion",
+        "label": "Dark Beast INT8 Convrot v2 BFS",
+        "size_gb": 9.0,
+    },
+    "flux2test_fluxtrait_q80": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        "local_name": "fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        "folder_key": "diffusion",
+        "label": "FluxTrait Klein 9B V2 (Q8_0 GGUF)",
+        "size_gb": 11.0,
+    },
+    "flux2test_gonzalomo_v10": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "gonzalomoKlein_v10.safetensors",
+        "local_name": "gonzalomoKlein_v10.safetensors",
+        "folder_key": "diffusion",
+        "label": "Gonzalomo Klein v10",
+        "size_gb": 9.0,
+    },
+    "flux2test_moodydesire_v30": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "moodyDesireMix_v30.safetensors",
+        "local_name": "moodyDesireMix_v30.safetensors",
+        "folder_key": "diffusion",
+        "label": "Moody Desire Mix v3.0",
+        "size_gb": 9.0,
+    },
+    "flux2test_realdream_v1": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "realdream_flux2_v1.safetensors",
+        "local_name": "realdream_flux2_v1.safetensors",
+        "folder_key": "diffusion",
+        "label": "RealDream Flux2 v1",
+        "size_gb": 9.0,
+    },
     # Krea2 Standard
     "krea2_diffusion": {
         "repo_id": "Comfy-Org/Krea-2",
@@ -489,6 +569,22 @@ MODEL_DOWNLOADS = {
         "folder_key": "diffusion",
         "label": "Krea2 Muse by Stable v20 (GGUF FP8)",
         "size_gb": 13.0,
+    },
+    "kreamaniaV4GGUF_v10": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "kreamaniaV4GGUF_v10.gguf",
+        "local_name": "kreamaniaV4GGUF_v10.gguf",
+        "folder_key": "diffusion",
+        "label": "Krea2 Kreamania V4 (GGUF FP8)",
+        "size_gb": 8.31,
+    },
+    "darkBeastKrea2_darkBeastKREA2": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "darkBeastKrea2_darkBeastKREA2.safetensors",
+        "local_name": "darkBeastKrea2_darkBeastKREA2.safetensors",
+        "folder_key": "diffusion",
+        "label": "Krea2 DarkBeastKrea2 (FP8)",
+        "size_gb": 12.8,
     },
 }
 
