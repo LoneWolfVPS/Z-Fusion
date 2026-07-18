@@ -142,6 +142,18 @@ BASE_MODEL_TYPES = {
     # ========================================
     # KREA2 BASE MODELS
     # ========================================
+    "krea2_turbo_nvfp4": BaseModelType(
+        id="krea2_turbo_nvfp4",
+        label="KREA2 Trubo (NVFP4)",
+        clip_type="krea2",
+        default_diffusion="krea2_turbo_nvfp4.safetensors",
+        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["krea2_turbo_nvfp4", "krea2_te", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Krea2 architecture NVFP4 quantized"
+    ),
     "moody_krea_mix_v41g_nvfp4": BaseModelType(
         id="moody_krea_mix_v41g_nvfp4",
         label="Moody-Krea-Mix v4.1G (NVFP4)",
@@ -263,6 +275,7 @@ BASE_TYPE_ORDER = [
     "flux2_klein_9b",
     "krea2",
     # Krea2 variants
+    "krea2_turbo_nvfp4",
     "moody_krea_mix_v41g_nvfp4",
     "moody_krea_mix_v3g_nvfp4",
     "krea2_muse_by_stable_gguf",
@@ -638,6 +651,14 @@ MODEL_DOWNLOADS = {
         "folder_key": "vae",
         "label": "Krea2Real VAE",
         "size_gb": 0.25,
+    },
+    "krea2_turbo_nvfp4": {
+        "repo_id": "krea2_turbo_nvfp4.safetensors",
+        "filename": "krea2_turbo_nvfp4.safetensors",
+        "local_name": "krea2_turbo_nvfp4.safetensors",
+        "folder_key": "diffusion",
+        "label": "KREA2 Trubo (NVFP4)",
+        "size_gb": 7.67,
     },
     "moody_krea_mix_v41g_nvfp4": {
         "repo_id": "catlover1937/moody-krea-mix",
