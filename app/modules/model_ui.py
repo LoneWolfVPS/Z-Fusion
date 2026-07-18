@@ -82,105 +82,163 @@ class BaseModelType:
 
 # Define available base types
 BASE_MODEL_TYPES = {
-    "zimage": BaseModelType(
-        id="zimage",
-        label="Z-Image",
-        clip_type="lumina2",
-        default_diffusion="z_image_turbo_bf16.safetensors",
-        default_te="qwen_3_4b.safetensors",
-        default_vae="ae.safetensors",
-        default_diffusion_gguf="z-image-turbo-q4_k_m.gguf",
-        default_te_gguf="Qwen3-4B-Q4_K_M.gguf",
-        download_keys_standard=["zimage_diffusion_bf16", "zimage_te_bf16", "zimage_vae"],
-        download_keys_gguf=["zimage_diffusion_gguf", "zimage_te_gguf", "zimage_vae"],
-        supports_gguf=True,
-        description="Z-Image architecture (Lumina2-based)"
-    ),
-    "flux2_klein_4b": BaseModelType(
-        id="flux2_klein_4b",
-        label="Flux2 Klein 4B",
-        clip_type="flux2",
-        default_diffusion="flux-2-klein-4b-fp8.safetensors",
-        default_te="qwen_3_4b.safetensors",
-        default_vae="flux2-vae.safetensors",
-        default_diffusion_gguf="flux-2-klein-4b-Q4_K_M.gguf",
-        default_te_gguf="Qwen3-4B-Q4_K_M.gguf",
-        download_keys_standard=["flux2_klein_4b_diffusion", "zimage_te_bf16", "flux2_vae"],
-        download_keys_gguf=["flux2_klein_4b_diffusion_gguf", "zimage_te_gguf", "flux2_vae"],
-        supports_gguf=True,
+    # ========================================
+    # KREA2 BASE MODELS
+    # ========================================
+    "krea2_turbo_fp8": BaseModelType(
+        id="krea2_turbo_fp8",
+        label="Krea2 Turbo (FP8)",
+        clip_type="krea2",
+        default_diffusion="krea2_turbo_fp8_scaled.safetensors",
+        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["krea2_turbo_fp8", "krea2_te", "krea2_realvae"],
+        supports_gguf=False,
         supports_edit=True,
-        description="Flux2 Klein 4B (uses 4B Qwen TE)"
+        description="Krea2 Turbo FP8 - Fast generation"
     ),
-    "flux2_klein_9b": BaseModelType(
-        id="flux2_klein_9b",
-        label="Flux2 Klein 9B",
-        clip_type="flux2",
-        default_diffusion="flux-2-klein-9b.safetensors",
-        default_diffusion2="flux-2-klein-9b-fp8.safetensors",
-        default_te="qwen_3_8b_fp8mixed.safetensors",
-        default_vae="flux2-vae.safetensors",
-        default_diffusion_gguf="flux-2-klein-9b-Q4_K_M.gguf",
-        default_te_gguf="Qwen3-8B-Q4_K_M.gguf",
-        download_keys_standard=["flux2_klein_9b_diffusion", "flux2_te_8b_bf16", "flux2_vae"],
-        download_keys_gguf=["flux2_klein_9b_diffusion_gguf", "flux2_te_8b_gguf", "flux2_vae"],
-        download_keys_gguf_bf16=["flux2_klein_9b_diffusion_gguf_bf16", "flux2_te_8b_gguf_bf16", "flux2_vae"],
-        supports_gguf=True,
+    "krea2_turbo_nvfp4": BaseModelType(
+        id="krea2_turbo_nvfp4",
+        label="Krea2 Turbo (NVFP4)",
+        clip_type="krea2",
+        default_diffusion="krea2_turbo_nvfp4.safetensors",
+        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["krea2_turbo_nvfp4", "krea2_te", "krea2_realvae"],
+        supports_gguf=False,
         supports_edit=True,
-        description="Flux2 Klein 9B (uses 8B Qwen TE)"
+        description="Krea2 Turbo NVFP4 - Lower VRAM"
     ),
-    "flux2_klein_custom": BaseModelType(
-        id="flux2_klein_custom",
-        label="Flux2 Klein (Custom Mixes)",
-        clip_type="flux2",
-        default_diffusion="moodyDesireMix_v30.safetensors",
-        default_te="qwen_3_8b_fp8mixed.safetensors",
-        default_vae="flux2-vae.safetensors",
-        default_diffusion_gguf="fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
-        default_te_gguf="Qwen3-8B-Q4_K_M.gguf",
-        download_keys_standard=[
-            "flux2test_artaix_v10", 
-            "flux2test_darkbeast_int8", 
-            "flux2test_gonzalomo_v10", 
-            "flux2test_moodydesire_v30", 
-            "flux2test_realdream_v1",
-            "flux2_te_8b_bf16", 
-            "flux2_vae"
-        ],
-        download_keys_gguf=[
-            "flux2test_fluxtrait_q80", 
-            "flux2_te_8b_gguf", 
-            "flux2_vae"
-        ],
-        supports_gguf=True,
-        supports_edit=True,
-        description="Custom FLUX2 Klein mixes and INT8/GGUF variants"
-    ),    
-    "krea2": BaseModelType(
-        id="krea2",
-        label="Krea2",
+    "moody_krea_mix_v41g_nvfp4": BaseModelType(
+        id="moody_krea_mix_v41g_nvfp4",
+        label="Moody-Krea-Mix v4.1G (NVFP4)",
         clip_type="krea2",
         default_diffusion="Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
         default_te="qwen3vl_4b_fp8_scaled.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=[
-            "krea2_diffusion", 
-            "krea2_te", 
-            "krea2_vae",
-            "krea2_realvae",
-            "moody_krea_mix_v41g_nvfp4",  # Add this
-            "moody_krea_mix_v3g_nvfp4",   # Add this
-            "darkBeastKrea2_darkBeastKREA2",
-        ],
-        download_keys_gguf=[
-            "krea2_muse_by_stable_gguf",  # Add this for GGUF mode
-            "kreamaniaV4GGUF_v10",
-        ],
+        download_keys_standard=["moody_krea_mix_v41g_nvfp4", "krea2_te", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Moody-Krea-Mix v4.1G - NVFP4 quantized"
+    ),
+    "moody_krea_mix_v3g_nvfp4": BaseModelType(
+        id="moody_krea_mix_v3g_nvfp4",
+        label="Moody-Krea-Mix v3G (NVFP4)",
+        clip_type="krea2",
+        default_diffusion="Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
+        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["moody_krea_mix_v3g_nvfp4", "krea2_te", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Moody-Krea-Mix v3G - NVFP4 quantized"
+    ),
+    "krea2_muse_by_stable_gguf": BaseModelType(
+        id="krea2_muse_by_stable_gguf",
+        label="Krea2 Muse by Stable (GGUF)",
+        clip_type="krea2",
+        default_diffusion="krea2MuseByStable_v15TurboFp8.gguf",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["krea2_muse_gguf", "krea2_te_heretic", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Krea2 Muse by Stable - GGUF format"
+    ),
+    
+    # ========================================
+    # FLUX2 KLEIN CUSTOM MODELS
+    # ========================================
+    "flux2test_artaix_v10": BaseModelType(
+        id="flux2test_artaix_v10",
+        label="Artaix v10 Final",
+        clip_type="flux2",
+        default_diffusion="artaix_v10Final.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_artaix_v10", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=False,
+        description="Artaix v10 Final - Custom FLUX2 Klein mix"
+    ),
+    "flux2test_darkbeast_int8": BaseModelType(
+        id="flux2test_darkbeast_int8",
+        label="Dark Beast INT8 Convrot v2",
+        clip_type="flux2",
+        default_diffusion="darkBeastINT8Convrot2_dbkleinv2BFS.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_darkbeast_int8", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=False,
+        description="Dark Beast INT8 Convrot v2 BFS"
+    ),
+    "flux2test_fluxtrait_q80": BaseModelType(
+        id="flux2test_fluxtrait_q80",
+        label="FluxTrait Klein 9B V2 (Q8_0)",
+        clip_type="flux2",
+        default_diffusion="fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        default_te="Qwen3-8B-Q4_K_M.gguf",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_fluxtrait_q80", "flux2_te_8b_gguf", "flux2_vae"],
         supports_gguf=True,
-        description="Krea2 architecture (Qwen3-VL-4B based)"
+        supports_edit=False,
+        description="FluxTrait Klein 9B V2 - Q8_0 GGUF"
+    ),
+    "flux2test_gonzalomo_v10": BaseModelType(
+        id="flux2test_gonzalomo_v10",
+        label="Gonzalomo Klein v10",
+        clip_type="flux2",
+        default_diffusion="gonzalomoKlein_v10.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_gonzalomo_v10", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=False,
+        description="Gonzalomo Klein v10 - Custom mix"
+    ),
+    "flux2test_moodydesire_v30": BaseModelType(
+        id="flux2test_moodydesire_v30",
+        label="Moody Desire Mix v3.0",
+        clip_type="flux2",
+        default_diffusion="moodyDesireMix_v30.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_moodydesire_v30", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=False,
+        description="Moody Desire Mix v3.0"
+    ),
+    "flux2test_realdream_v1": BaseModelType(
+        id="flux2test_realdream_v1",
+        label="RealDream Flux2 v1",
+        clip_type="flux2",
+        default_diffusion="realdream_flux2_v1.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_realdream_v1", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=False,
+        description="RealDream Flux2 v1"
     ),
 }
 
-BASE_TYPE_ORDER = ["zimage", "flux2_klein_4b", "flux2_klein_9b", "krea2", "flux2_klein_custom"]
+# Update the order to include all new models
+BASE_TYPE_ORDER = [
+    # Krea2 variants
+    "krea2_turbo_fp8",
+    "krea2_turbo_nvfp4",
+    "moody_krea_mix_v41g_nvfp4",
+    "moody_krea_mix_v3g_nvfp4",
+    "krea2_muse_by_stable_gguf",
+    # FLUX2 Klein custom models
+    "flux2test_artaix_v10",
+    "flux2test_darkbeast_int8",
+    "flux2test_fluxtrait_q80",
+    "flux2test_gonzalomo_v10",
+    "flux2test_moodydesire_v30",
+    "flux2test_realdream_v1",
+]
 
 
 # =============================================================================
@@ -530,12 +588,12 @@ MODEL_DOWNLOADS = {
         "label": "Qwen3-VL 4B TE (fp8)",
         "size_gb": 5,
     },
-    "krea2_vae": {
-        "repo_id": "Comfy-Org/Krea-2",
-        "filename": "vae/qwen_image_vae.safetensors",
-        "local_name": "qwen_image_vae.safetensors",
+    "krea2_realvae": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "krea2RealVae_v10.safetensors",
+        "local_name": "krea2RealVae_v10.safetensors",
         "folder_key": "vae",
-        "label": "Krea2 VAE",
+        "label": "Krea2Real VAE",
         "size_gb": 0.25,
     },
     "krea2_realvae": {
@@ -585,6 +643,105 @@ MODEL_DOWNLOADS = {
         "folder_key": "diffusion",
         "label": "Krea2 DarkBeastKrea2 (FP8)",
         "size_gb": 12.8,
+    },
+    # Krea2 individual models
+    "krea2_turbo_fp8": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "krea2_turbo_fp8_scaled.safetensors",
+        "local_name": "krea2_turbo_fp8_scaled.safetensors",
+        "folder_key": "diffusion",
+        "label": "Krea2 Turbo FP8",
+        "size_gb": 12.0,
+    },
+    "krea2_turbo_nvfp4": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "krea2_turbo_nvfp4.safetensors",
+        "local_name": "krea2_turbo_nvfp4.safetensors",
+        "folder_key": "diffusion",
+        "label": "Krea2 Turbo NVFP4",
+        "size_gb": 8.0,
+    },
+    "moody_krea_mix_v41g_nvfp4": {
+        "repo_id": "catlover1937/moody-krea-mix",
+        "filename": "Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
+        "local_name": "Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
+        "folder_key": "diffusion",
+        "label": "Moody-Krea-Mix v4.1G NVFP4",
+        "size_gb": 8.81,
+    },
+    "moody_krea_mix_v3g_nvfp4": {
+        "repo_id": "catlover1937/moody-krea-mix",
+        "filename": "Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
+        "local_name": "Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
+        "folder_key": "diffusion",
+        "label": "Moody-Krea-Mix v3G NVFP4",
+        "size_gb": 8.81,
+    },
+    "krea2_muse_gguf": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "krea2MuseByStable_v15TurboFp8.gguf",
+        "local_name": "krea2MuseByStable_v15TurboFp8.gguf",
+        "folder_key": "diffusion",
+        "label": "Krea2 Muse by Stable GGUF",
+        "size_gb": 13.0,
+    },
+    "krea2_te_heretic": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "qwen3VLInstruct4bHeretic_v10.safetensors",
+        "local_name": "qwen3VLInstruct4bHeretic_v10.safetensors",
+        "folder_key": "text_encoder",
+        "label": "Qwen3VL Instruct Heretic v10",
+        "size_gb": 8.0,
+    },
+    
+    # FLUX2 Klein custom models
+    "flux2test_artaix_v10": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "artaix_v10Final.safetensors",
+        "local_name": "artaix_v10Final.safetensors",
+        "folder_key": "diffusion",
+        "label": "Artaix v10 Final",
+        "size_gb": 9.0,
+    },
+    "flux2test_darkbeast_int8": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "darkBeastINT8Convrot2_dbkleinv2BFS.safetensors",
+        "local_name": "darkBeastINT8Convrot2_dbkleinv2BFS.safetensors",
+        "folder_key": "diffusion",
+        "label": "Dark Beast INT8 Convrot v2 BFS",
+        "size_gb": 9.0,
+    },
+    "flux2test_fluxtrait_q80": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        "local_name": "fluxtraitFLUX2KleinFLUXZ_klein9bV2Q80.gguf",
+        "folder_key": "diffusion",
+        "label": "FluxTrait Klein 9B V2 Q8_0",
+        "size_gb": 11.0,
+    },
+    "flux2test_gonzalomo_v10": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "gonzalomoKlein_v10.safetensors",
+        "local_name": "gonzalomoKlein_v10.safetensors",
+        "folder_key": "diffusion",
+        "label": "Gonzalomo Klein v10",
+        "size_gb": 9.0,
+    },
+    "flux2test_moodydesire_v30": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "moodyDesireMix_v30.safetensors",
+        "local_name": "moodyDesireMix_v30.safetensors",
+        "folder_key": "diffusion",
+        "label": "Moody Desire Mix v3.0",
+        "size_gb": 9.0,
+    },
+    "flux2test_realdream_v1": {
+        "repo_id": "LoneWolfVPS/flux2test",
+        "filename": "realdream_flux2_v1.safetensors",
+        "local_name": "realdream_flux2_v1.safetensors",
+        "folder_key": "diffusion",
+        "label": "RealDream Flux2 v1",
+        "size_gb": 9.0,
     },
 }
 
