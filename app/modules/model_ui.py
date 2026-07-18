@@ -174,7 +174,7 @@ BASE_MODEL_TYPES = {
         default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
         download_keys_standard=["krea2_muse_gguf", "krea2_te_heretic", "krea2_realvae"],
-        supports_gguf=False,
+        supports_gguf=True,
         supports_edit=True,
         description="Krea2 Muse by Stable - GGUF format"
     ),
@@ -191,7 +191,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_artaix_v10", "flux2_te_8b", "flux2_vae"],
         supports_gguf=False,
-        supports_edit=False,
+        supports_edit=True,
         description="Artaix v10 Final - Custom FLUX2 Klein mix"
     ),
     "flux2test_darkbeast_int8": BaseModelType(
@@ -203,7 +203,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_darkbeast_int8", "flux2_te_8b", "flux2_vae"],
         supports_gguf=False,
-        supports_edit=False,
+        supports_edit=True,
         description="Dark Beast INT8 Convrot v2 BFS"
     ),
     "flux2test_fluxtrait_q80": BaseModelType(
@@ -215,7 +215,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_fluxtrait_q80", "flux2_te_8b_gguf", "flux2_vae"],
         supports_gguf=True,
-        supports_edit=False,
+        supports_edit=True,
         description="FluxTrait Klein 9B V2 - Q8_0 GGUF"
     ),
     "flux2test_gonzalomo_v10": BaseModelType(
@@ -227,7 +227,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_gonzalomo_v10", "flux2_te_8b", "flux2_vae"],
         supports_gguf=False,
-        supports_edit=False,
+        supports_edit=True,
         description="Gonzalomo Klein v10 - Custom mix"
     ),
     "flux2test_moodydesire_v30": BaseModelType(
@@ -239,7 +239,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_moodydesire_v30", "flux2_te_8b", "flux2_vae"],
         supports_gguf=False,
-        supports_edit=False,
+        supports_edit=True,
         description="Moody Desire Mix v3.0"
     ),
     "flux2test_realdream_v1": BaseModelType(
@@ -251,7 +251,7 @@ BASE_MODEL_TYPES = {
         default_vae="flux2-vae.safetensors",
         download_keys_standard=["flux2test_realdream_v1", "flux2_te_8b", "flux2_vae"],
         supports_gguf=False,
-        supports_edit=False,
+        supports_edit=True,
         description="RealDream Flux2 v1"
     ),
 }
