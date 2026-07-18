@@ -135,8 +135,17 @@ BASE_MODEL_TYPES = {
         default_diffusion="krea2_turbo_fp8_scaled.safetensors",
         default_te="qwen3vl_4b_fp8_scaled.safetensors",
         default_vae="qwen_image_vae.safetensors",
-        download_keys_standard=["krea2_diffusion", "krea2_te", "krea2_vae"],
-        supports_gguf=False,
+        download_keys_standard=[
+            "krea2_diffusion", 
+            "krea2_te", 
+            "krea2_vae",
+            "moody_krea_mix_v41g_nvfp4",  # Add this
+            "moody_krea_mix_v3g_nvfp4",   # Add this
+        ],
+        download_keys_gguf=[
+            "krea2_muse_by_stable_gguf",  # Add this for GGUF mode
+        ],
+        supports_gguf=True,
         description="Krea2 architecture (Qwen3-VL-4B based)"
     ),
 }
@@ -447,6 +456,30 @@ MODEL_DOWNLOADS = {
         "folder_key": "vae",
         "label": "Krea2 VAE",
         "size_gb": 0.25,
+    },
+    "moody_krea_mix_v41g_nvfp4": {
+    "repo_id": "catlover1937/moody-krea-mix",
+    "filename": "Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
+    "local_name": "Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
+    "folder_key": "diffusion",
+    "label": "Moody-Krea-Mix v4.1G (NVFP4)",
+    "size_gb": 8.81,
+    },
+    "moody_krea_mix_v3g_nvfp4": {
+    "repo_id": "catlover1937/moody-krea-mix",
+    "filename": "Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
+    "local_name": "Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
+    "folder_key": "diffusion",
+    "label": "Moody-Krea-Mix v3G (NVFP4)",
+    "size_gb": 8.81,
+    },
+    "krea2_muse_by_stable_gguf": {
+    "repo_id": "LoneWolfVPS/TestKrea",
+    "filename": "krea2MuseByStable_v15TurboFp8.gguf",
+    "local_name": "krea2MuseByStable_v15TurboFp8.gguf",
+    "folder_key": "diffusion",
+    "label": "Krea2 Muse by Stable v15 (GGUF FP8)",
+    "size_gb": 13.0,
     },
 }
 
