@@ -147,9 +147,9 @@ BASE_MODEL_TYPES = {
         label="KREA2 Trubo (NVFP4)",
         clip_type="krea2",
         default_diffusion="krea2_turbo_nvfp4.safetensors",
-        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["krea2_turbo_nvfp4", "krea2_te", "krea2_realvae"],
+        download_keys_standard=["krea2_turbo_nvfp4", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
         supports_gguf=False,
         supports_edit=True,
         description="Krea2 architecture NVFP4 quantized"
@@ -159,9 +159,9 @@ BASE_MODEL_TYPES = {
         label="Moody-Krea-Mix v4.1G (NVFP4)",
         clip_type="krea2",
         default_diffusion="Moody-Krea-Mix-v4.1G_00001__clean_nvfp4.safetensors",
-        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["moody_krea_mix_v41g_nvfp4", "krea2_te", "krea2_realvae"],
+        download_keys_standard=["moody_krea_mix_v41g_nvfp4", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
         supports_gguf=False,
         supports_edit=True,
         description="Moody-Krea-Mix v4.1G - NVFP4 quantized"
@@ -171,9 +171,9 @@ BASE_MODEL_TYPES = {
         label="Moody-Krea-Mix v3G (NVFP4)",
         clip_type="krea2",
         default_diffusion="Moody-Krea-Mix-v3G_00001__nvfp4.safetensors",
-        default_te="qwen3vl_4b_fp8_scaled.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["moody_krea_mix_v3g_nvfp4", "krea2_te", "krea2_realvae"],
+        download_keys_standard=["moody_krea_mix_v3g_nvfp4", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
         supports_gguf=False,
         supports_edit=True,
         description="Moody-Krea-Mix v3G - NVFP4 quantized"
@@ -185,10 +185,34 @@ BASE_MODEL_TYPES = {
         default_diffusion="krea2MuseByStable_v15TurboFp8.gguf",
         default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
         default_vae="krea2RealVae_v10.safetensors",
-        download_keys_standard=["krea2_muse_gguf", "krea2_te_heretic", "krea2_realvae"],
+        download_keys_standard=["krea2_muse_by_stable_gguf", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
         supports_gguf=True,
         supports_edit=True,
         description="Krea2 Muse by Stable - GGUF format"
+    ),
+    "kreamaniaV4GGUF_v10": BaseModelType(
+        id="kreamaniaV4GGUF_v10",
+        label="Krea2 Kreamania V4 (GGUF FP8)",
+        clip_type="krea2",
+        default_diffusion="kreamaniaV4GGUF_v10.gguf",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["kreamaniaV4GGUF_v10", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
+        supports_gguf=True,
+        supports_edit=True,
+        description="Krea2 Kreamania - GGUF format"
+    ),
+    "darkBeastKrea2_darkBeastKREA2": BaseModelType(
+        id="darkBeastKrea2_darkBeastKREA2",
+        label="Krea2 DarkBeastKrea2 (FP8)",
+        clip_type="krea2",
+        default_diffusion="darkBeastKrea2_darkBeastKREA2.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["darkBeastKrea2_darkBeastKREA2", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Krea2 Kreamania - GGUF format"
     ),
     
     # ========================================
@@ -635,6 +659,14 @@ MODEL_DOWNLOADS = {
         "folder_key": "text_encoder",
         "label": "Qwen3-VL 4B TE (fp8)",
         "size_gb": 5,
+    },
+    "krea2_te_qwen3VLInstruct4bHeretic": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "qwen3VLInstruct4bHeretic_v10.safetensors",
+        "local_name": "qwen3VLInstruct4bHeretic_v10.safetensors",
+        "folder_key": "text_encoder",
+        "label": "krea2_te_qwen3VLInstruct4bHeretic 4B TE (fp8)",
+        "size_gb": 5.24,
     },
     "krea2_realvae": {
         "repo_id": "LoneWolfVPS/TestKrea",
