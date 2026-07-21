@@ -313,6 +313,42 @@ BASE_MODEL_TYPES = {
         supports_edit=True,
         description="RealDream Flux2 v1"
     ),
+    "flux2test_AISHA_v97": BaseModelType(
+        id="flux2test_AISHA_v97",
+        label="Flux2 AISHA v9.7",
+        clip_type="flux2",
+        default_diffusion="aisha_nsfw_beta_v9_7_distilled_fp8.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_AISHA_v97", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Aisha Flux2 v97"
+    ),
+    "flux2test_pornmasterFlux2Klein_v2": BaseModelType(
+        id="flux2test_pornmasterFlux2Klein_v2",
+        label="Flux2 ApornmasterFlux2Klein_v2",
+        clip_type="flux2",
+        default_diffusion="pornmasterFlux2Klein_v2.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_pornmasterFlux2Klein_v2", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="pornmasterFlux2Klein_v2"
+    ),
+    "flux2test_miracleinNSFWGeneration_10Fp8": BaseModelType(
+        id="flux2test_miracleinNSFWGeneration_10Fp8",
+        label="Flux2 miracleinNSFWGeneration_10Fp8",
+        clip_type="flux2",
+        default_diffusion="miracleinNSFWGeneration_10Fp8.safetensors",
+        default_te="qwen_3_8b_fp8mixed.safetensors",
+        default_vae="flux2-vae.safetensors",
+        download_keys_standard=["flux2test_miracleinNSFWGeneration_10Fp8", "flux2_te_8b", "flux2_vae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="miracleinNSFWGeneration Flux2"
+    ),
 }
 
 # Update the order to include all new models
@@ -326,6 +362,8 @@ BASE_TYPE_ORDER = [
     "moody_krea_mix_v41g_nvfp4",
     "moody_krea_mix_v3g_nvfp4",
     "krea2_muse_by_stable_gguf",
+    "arthemyComicsKrea2_v11",
+    "gonzalomoKrea2_v20RC1",
     # FLUX2 Klein custom models
     "flux2test_artaix_v10",
     "flux2test_darkbeast_int8",
@@ -333,6 +371,9 @@ BASE_TYPE_ORDER = [
     "flux2test_gonzalomo_v10",
     "flux2test_moodydesire_v30",
     "flux2test_realdream_v1",
+    "flux2test_AISHA_v97",
+    "flux2test_pornmasterFlux2Klein_v2",
+    "flux2test_miracleinNSFWGeneration_10Fp8",
 ]
 
 
@@ -869,6 +910,30 @@ MODEL_DOWNLOADS = {
         "folder_key": "diffusion",
         "label": "RealDream Flux2 v1",
         "size_gb": 9.0,
+    },
+    "flux2test_AISHA_v97": {
+        "repo_id": "Aisha-AI-Official/flux-2-klein-models",
+        "filename": "aisha_nsfw_beta_v9_7_distilled_fp8.safetensors",
+        "local_name": "aisha_nsfw_beta_v9_7_distilled_fp8.safetensors",
+        "folder_key": "diffusion",
+        "label": "Flux2 AISHA v9.7",
+        "size_gb": 9.43,
+    },
+    "flux2test_pornmasterFlux2Klein_v2": {
+        "repo_id": "Aisha-AI-Official/flux-2-klein-models",
+        "filename": "pornmasterFlux2Klein_v2.safetensors",
+        "local_name": "pornmasterFlux2Klein_v2.safetensors",
+        "folder_key": "diffusion",
+        "label": "Flux2 ApornmasterFlux2Klein_v2",
+        "size_gb": 9.43,
+    },
+    "flux2test_miracleinNSFWGeneration_10Fp8": {
+        "repo_id": "Aisha-AI-Official/flux-2-klein-models",
+        "filename": "miracleinNSFWGeneration_10Fp8.safetensors",
+        "local_name": "miracleinNSFWGeneration_10Fp8.safetensors",
+        "folder_key": "diffusion",
+        "label": "Flux2 miracleinNSFWGeneration_10Fp8",
+        "size_gb": 9.43,
     },
 }
 
