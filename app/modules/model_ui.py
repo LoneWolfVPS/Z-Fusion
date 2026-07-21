@@ -214,7 +214,30 @@ BASE_MODEL_TYPES = {
         supports_edit=True,
         description="Krea2 Kreamania - GGUF format"
     ),
-    
+    "gonzalomoKrea2_v20RC1": BaseModelType(
+        id="gonzalomoKrea2_v20RC1",
+        label="gonzalomoKrea2_v20RC1 INTP8",
+        clip_type="krea2",
+        default_diffusion="gonzalomoKrea2_v20RC1.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["gonzalomoKrea2_v20RC1", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Krea2 gonzalomoKrea2_v20RC1 INTP8 format"
+    ),    
+    "arthemyComicsKrea2_v11": BaseModelType(
+        id="arthemyComicsKrea2_v11",
+        label="arthemyComicsKrea2_v11 INTP8",
+        clip_type="krea2",
+        default_diffusion="arthemyComicsKrea2_v11.safetensors",
+        default_te="qwen3VLInstruct4bHeretic_v10.safetensors",
+        default_vae="krea2RealVae_v10.safetensors",
+        download_keys_standard=["arthemyComicsKrea2_v11", "krea2_te_qwen3VLInstruct4bHeretic", "krea2_realvae"],
+        supports_gguf=False,
+        supports_edit=True,
+        description="Krea2 arthemyComicsKrea2_v11 INTP8 format"
+    ),    
     # ========================================
     # FLUX2 KLEIN CUSTOM MODELS
     # ========================================
@@ -780,6 +803,22 @@ MODEL_DOWNLOADS = {
         "folder_key": "text_encoder",
         "label": "Qwen3VL Instruct Heretic v10",
         "size_gb": 8.0,
+    },
+    "gonzalomoKrea2_v20RC1": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "gonzalomoKrea2_v20RC1.safetensors",
+        "local_name": "gonzalomoKrea2_v20RC1.safetensors",
+        "folder_key": "diffusion",
+        "label": "gonzalomoKrea2_v20RC1 INTP8",
+        "size_gb": 14.1,
+    },
+    "arthemyComicsKrea2_v11": {
+        "repo_id": "LoneWolfVPS/TestKrea",
+        "filename": "arthemyComicsKrea2_v11.safetensors",
+        "local_name": "arthemyComicsKrea2_v11.safetensors",
+        "folder_key": "diffusion",
+        "label": "arthemyComicsKrea2_v11 INTP8",
+        "size_gb": 13.1,
     },
     
     # FLUX2 Klein custom models
